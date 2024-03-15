@@ -4,9 +4,8 @@
 // hint.
 
 
-
 fn main() {
-    let x: i32=1;
+    let x =10;
     if x == 10 {
         println!("x is ten!");
     } else {
