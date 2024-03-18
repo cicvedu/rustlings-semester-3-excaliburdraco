@@ -10,7 +10,7 @@
 //
 // Execute `rustlings hint rc1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+
 
 use std::rc::Rc;
 
@@ -27,17 +27,21 @@ enum Planet {
     Saturn(Rc<Sun>),
     Uranus(Rc<Sun>),
     Neptune(Rc<Sun>),
-}
+    }
 
 impl Planet {
+    // Uranus 的 new 方法接收一个 Rc<Sun> 参数
+    fn new_uranus(sun: Rc<Sun>) -> Self {
+        Planet::Uranus(sun)
+    }
     fn details(&self) {
         println!("Hi from {:?}!", self)
     }
-}
 
+}
 fn main() {
-    let sun = Rc::new(Sun {});
-    println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference
+    let sun = Rc::new(Sun {});//定义一个引用计数的智能指针，指向类型为Sun{}结构体，可以允许多个引用指针指向sum的实力，没创建一次计数器加1.
+    println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference  //引用计数
 
     let mercury = Planet::Mercury(Rc::clone(&sun));
     println!("reference count = {}", Rc::strong_count(&sun)); // 2 references
@@ -59,18 +63,19 @@ fn main() {
     println!("reference count = {}", Rc::strong_count(&sun)); // 6 references
     jupiter.details();
 
-    // TODO
-    let saturn = Planet::Saturn(Rc::new(Sun {}));
+
+    let saturn = Planet::Saturn(Rc::clone(&sun));
     println!("reference count = {}", Rc::strong_count(&sun)); // 7 references
     saturn.details();
+    
 
     // TODO
-    let uranus = Planet::Uranus(Rc::new(Sun {}));
+    let uranus = Planet::Uranus(Rc::clone(&sun));
     println!("reference count = {}", Rc::strong_count(&sun)); // 8 references
     uranus.details();
 
     // TODO
-    let neptune = Planet::Neptune(Rc::new(Sun {}));
+    let neptune = Planet::Neptune(Rc::clone(&sun));
     println!("reference count = {}", Rc::strong_count(&sun)); // 9 references
     neptune.details();
 
@@ -92,12 +97,15 @@ fn main() {
     println!("reference count = {}", Rc::strong_count(&sun)); // 4 references
 
     // TODO
+    drop(venus);
     println!("reference count = {}", Rc::strong_count(&sun)); // 3 references
 
     // TODO
+    drop(earth);
     println!("reference count = {}", Rc::strong_count(&sun)); // 2 references
 
     // TODO
+    drop(mercury);
     println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference
 
     assert_eq!(Rc::strong_count(&sun), 1);
